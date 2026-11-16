@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meet &amp; Greet the Chatterjee Family</title>
+<meta property="og:title" content="Meet &amp; Greet the Chatterjee Family">
+<meta property="og:description" content="You're invited. Tap to reply.">
+<style>
+  :root{--bg:#f7f3ea;--card:#fffdf9;--ink:#221f1a;--muted:#7a7268;--line:#e8e0d2;--accent:#1f6f4a;--accent2:#e9f4ee;--gold:#b08d4a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:520px;margin:0 auto;padding:14px 16px 40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px 22px;box-shadow:0 8px 30px rgba(60,45,20,.06)}
+  .head{text-align:center}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:29px;line-height:1.2;margin:12px 0 0;text-wrap:balance}
+  .orn{display:flex;align-items:center;justify-content:center;gap:10px;margin:16px auto 14px;color:var(--gold);font-size:11px}
+  .orn::before,.orn::after{content:"";height:1px;width:54px;background:var(--gold);opacity:.55}
+  .when{font-size:16px;font-weight:600}
+  .where{font-size:15px;color:var(--muted);margin-top:2px}
+  .host{font-size:14px;color:var(--muted);margin-top:10px;font-style:italic}
+  .meta{color:var(--muted);font-size:15px}
+  .ask{border-top:1px solid var(--line);margin-top:22px;padding-top:4px}
+  .q{margin:18px 0 12px;font-size:19px;font-weight:600;line-height:1.3}
+  .q .meta{font-weight:400;font-size:14px;margin-top:2px}
+  .choices{display:grid;gap:10px}
+  .ch{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:16px;font:600 17px system-ui,sans-serif;text-align:center;cursor:pointer;color:var(--ink)}
+  .ch.yes{border-color:var(--accent);background:var(--accent);color:#fff}
+  .ch:active{transform:scale(.99)}
+  .banner{background:var(--accent2);color:var(--accent);border-radius:10px;padding:10px 12px;font-size:14px;margin-top:18px;text-align:center}
+  .done{text-align:center;padding:14px 0 0;border-top:1px solid var(--line);margin-top:22px}
+  .done .big{font-size:40px}
+  .extras{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 4px}
+  .extra{display:block;border:1.5px solid var(--line);border-radius:12px;padding:12px 8px;font:600 14px system-ui,sans-serif;color:var(--ink);text-decoration:none;background:#fff}
+  .link{background:none;border:0;color:var(--accent);font:600 15px system-ui,sans-serif;cursor:pointer;margin-top:10px}
+  .state{text-align:center;color:var(--muted);padding:30px 6px}
+  .ov{position:fixed;inset:0;background:rgba(20,18,15,.45);display:none;align-items:flex-end;justify-content:center;z-index:10}
+  .ov.show{display:flex}
+  .sheet{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:22px 20px 26px;animation:up .2s ease-out}
+  @media(min-width:600px){.ov{align-items:center}.sheet{border-radius:20px}}
+  @keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+  @media(prefers-reduced-motion:reduce){.sheet,.shake{animation:none}}
+  .sheet .q{margin-top:0}
+  .tiles{display:grid;gap:8px;margin:12px 0 6px}
+  .tile{height:58px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font:700 22px system-ui,sans-serif;color:var(--ink);cursor:pointer;min-width:0}
+  .tile.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .tiles.many{display:flex;overflow-x:auto}.tiles.many .tile{flex:0 0 56px}
+  .hint{text-align:center;font-size:14px;color:var(--muted);min-height:20px}
+  .hint.warn{color:#b5651d;font-weight:600}
+  .shake{animation:sh .35s}@keyframes sh{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  .notebtn{background:none;border:0;color:var(--muted);font:14px system-ui,sans-serif;cursor:pointer;padding:6px 0;text-decoration:underline}
+  textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:15px system-ui,sans-serif;min-height:64px;resize:vertical;margin-top:6px}
+  .submit{width:100%;margin-top:16px;border:0;border-radius:12px;padding:15px;font:700 16px system-ui,sans-serif;background:var(--accent);color:#fff;cursor:pointer;transition:opacity .15s}
+  .submit.dim{opacity:.35}
+  .submit:disabled{opacity:.35;cursor:default}
+  .cancel{width:100%;margin-top:8px;border:0;background:none;color:var(--muted);font:600 15px system-ui,sans-serif;padding:10px;cursor:pointer}
+  .sorry{font-size:17px;line-height:1.45;margin:4px 0 0}
+  .err{color:#a33;font-size:14px;margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="card"><div class="state">Opening your invitation…</div></div>
+</div>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<script>
+
+let G = null;
+const API = "https://script.google.com/macros/s/AKfycbySx-dW93OPX4Q_Nivpm-Nuj5uou8iDyNRiz0jQ2mTj1ZVrHvtRhFeUo6GF6TEmuKji/exec";
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ppl = n => n + ' ' + (n === 1 ? 'person' : 'people');
+let SORRY = '', MAX = 1, count = 0, note = '', showNote = false;
+
+function init() {
+  const fillT = t => String(t || '').replace(/\{(\w+)\}/g, (m, k) => ({ name: G.firstName || 'friend', event: G.event }[k.toLowerCase()] ?? m));
+  SORRY = fillT(G.declineMsg) || "We're sad you can't make it. You'll be missed!";
+  MAX = Math.max(1, G.invitedFor || 1);
+  count = G.status === 'Yes' && G.party > 0 && G.party <= MAX ? G.party : 0;
+  note = G.note || ''; showNote = !!G.note;
+  if (G.event) document.title = G.event;
+  page();
+}
+
+function head() {
+  return `<div class="head"><div class="eyebrow">You're invited</div>
+    <h1>${esc(G.event)}</h1>
+    <div class="orn">◆</div>
+    ${G.date ? `<div class="when">${esc(G.date)}</div>` : ''}
+    ${G.venue ? `<div class="where">${esc(G.venue)}</div>` : ''}
+    ${G.host ? `<div class="host">Hosted by ${esc(G.host)}</div>` : ''}</div>`;
+}
+
+function page() {
+  const prev = G.status === 'Yes' ? `Yes${G.askParty && MAX > 1 && G.party ? ' · ' + ppl(G.party) : ''}` : G.status === 'No' ? "Can't make it" : '';
+  $('card').innerHTML = head() + `
+    ${prev ? `<div class="banner">Your reply: <b>${prev}</b>. You can change it below.</div>` : ''}
+    <div class="${prev ? '' : 'ask'}"><div class="q">Hi ${esc(G.firstName || 'there')}, will you join us?${G.deadline ? `<div class="meta">Please reply by ${esc(G.deadline)}</div>` : ''}</div>
+    <div class="choices">
+      <button class="ch yes" data-open="yes">Yes, I'll be there</button>
+      <button class="ch" data-open="no">Sorry, can't make it</button>
+    </div></div>`;
+}
+
+const askCount = () => G.askParty && MAX > 1;
+
+function popYes() {
+  if (!askCount()) count = 1;
+  $('sheet').innerHTML = askCount() ? `
+      <div class="q">How many people, including you?</div>
+      <div class="tiles ${MAX > 5 ? 'many' : ''}" id="tiles" style="grid-template-columns:repeat(${Math.min(MAX, 5)},minmax(0,1fr))">
+        ${Array.from({ length: MAX }, (_, i) => i + 1).map(n => `<button class="tile ${count === n ? 'on' : ''}" data-n="${n}">${n}</button>`).join('')}
+      </div>
+      <div class="hint" id="hint">${count ? 'Great, now tap Send RSVP' : 'Tap a number to continue'}</div>
+      ${noteBit()}
+      <button class="submit ${count > 0 ? '' : 'dim'}" id="send" data-send="Yes">Send RSVP</button>
+      <button class="cancel" data-close="1">Go back</button>
+      <div class="err" id="err"></div>`
+    : `<div class="q">Lovely! Shall we confirm you're coming?</div>
+      ${noteBit()}
+      <button class="submit" id="send" data-send="Yes">Confirm</button>
+      <button class="cancel" data-close="1">Go back</button>
+      <div class="err" id="err"></div>`;
+  $('ov').classList.add('show');
+}
+
+function noteBit() {
+  return showNote ? `<textarea id="note" maxlength="500" placeholder="Anything we should know? (optional)">${esc(note)}</textarea>`
+                  : `<div style="text-align:center"><button class="notebtn" data-note="1">Add a note (optional)</button></div>`;
+}
+
+function popNo() {
+  $('sheet').innerHTML = `
+    <p class="sorry">${esc(SORRY)}</p>
+    <button class="submit" id="send" data-send="No">Send RSVP</button>
+    <button class="cancel" data-close="1">Go back</button>
+    <div class="err" id="err"></div>`;
+  $('ov').classList.add('show');
+}
+
+function close() { $('ov').classList.remove('show'); }
+
+/* ---- Maps + calendar links, built from the event details ---- */
+function eventStart() {
+  let y, mo, d;
+  if (G.eventDay) [y, mo, d] = G.eventDay.split('-').map(Number);
+  else {
+    const m = /(\d{1,2})\s+([A-Za-z]{3})[a-z]*\.?,?\s+(\d{4})/.exec(G.date || '');
+    if (!m) return null;
+    const i = 'janfebmaraprmayjunjulaugsepoctnovdec'.indexOf(m[2].toLowerCase());
+    if (i < 0 || i % 3) return null;
+    y = +m[3]; mo = i / 3 + 1; d = +m[1];
+  }
+  const t = /(\d{1,2})(?:[:.](\d{2}))?\s*([ap])\.?\s*m/i.exec(G.date || '');
+  let h = null, mi = 0;
+  if (t) { h = (+t[1] % 12) + (/p/i.test(t[3]) ? 12 : 0); mi = +(t[2] || 0); }
+  return { y, mo, d, h, mi };
+}
+function calUrl() {
+  const s = eventStart(); if (!s) return '';
+  const p = n => String(n).padStart(2, '0');
+  const day = dt => dt.getUTCFullYear() + p(dt.getUTCMonth() + 1) + p(dt.getUTCDate());
+  const a = new Date(Date.UTC(s.y, s.mo - 1, s.d, s.h || 0, s.mi));
+  let dates;
+  if (s.h == null) dates = day(a) + '/' + day(new Date(a.getTime() + 864e5));
+  else { const b = new Date(a.getTime() + 3 * 3600e3); const f = dt => day(dt) + 'T' + p(dt.getUTCHours()) + p(dt.getUTCMinutes()) + '00'; dates = f(a) + '/' + f(b); }
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(G.event || 'Event') +
+    '&dates=' + dates + (G.tz && s.h != null ? '&ctz=' + encodeURIComponent(G.tz) : '') + '&location=' + encodeURIComponent(G.venue || '');
+}
+const mapUrl = () => G.venue ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(G.venue) : '';
+
+function thanks(status) {
+  const cal = calUrl(), map = mapUrl();
+  $('card').innerHTML = head() + (status === 'Yes'
+    ? `<div class="done"><div class="big">🎉</div><p><b>You're coming!</b>${askCount() ? ' · ' + ppl(count) : ''}</p>
+       <p class="meta">Wonderful, we can't wait to see you!</p>
+       ${cal || map ? `<div class="extras" style="${cal && map ? '' : 'grid-template-columns:1fr'}">
+         ${map ? `<a class="extra" href="${esc(map)}" target="_blank" rel="noopener">📍 Open in Maps</a>` : ''}
+         ${cal ? `<a class="extra" href="${esc(cal)}" target="_blank" rel="noopener">📅 Add to calendar</a>` : ''}</div>` : ''}
+       <button class="link" id="change">Change my response</button></div>`
+    : `<div class="done"><div class="big">💌</div><p class="meta" style="font-size:16px">${esc(SORRY)}</p>
+       <button class="link" id="change">Change my response</button></div>`);
+}
+
+/* ---- Talking to the Sheet ---- */
+function api(params) {
+  const q = Object.keys(params).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+  return fetch(API + '?' + q + '&_=' + Date.now(), { redirect: 'follow' }).then(r => r.json()).then(j => {
+    if (!j || j.error) throw new Error((j && j.error) || 'failed');
+    return j;
+  });
+}
+function save(status, party) {
+  if (API) return api({ api: 'rsvp', g: G.token, status: status, party: party, note: note });
+  return new Promise((res, rej) => google.script.run.withSuccessHandler(res).withFailureHandler(rej).submitRsvp(G.token, status, party, note));
+}
+
+function send(status, attempt) {
+  attempt = attempt || 1;
+  if ($('note')) note = $('note').value;
+  const btn = $('send'), label = btn.dataset.label || btn.textContent; btn.dataset.label = label;
+  btn.disabled = true; btn.textContent = attempt > 1 ? 'Still sending…' : 'Sending…';
+  $('err').textContent = '';
+  const party = status === 'Yes' ? (askCount() ? count : 1) : 0;
+  save(status, party)
+    .then(() => { G.status = status; G.party = party; G.note = note; close(); thanks(status); })
+    .catch(() => {
+      if (attempt < 3) return setTimeout(() => send(status, attempt + 1), 1500 * attempt);   // quietly retry busy moments
+      btn.disabled = false; btn.textContent = label;
+      $('err').textContent = "Sorry, that didn't go through. Please try again, or simply reply on WhatsApp.";
+    });
+}
+
+document.addEventListener('click', e => {
+  const t = e.target;
+  if (t.closest('[data-open="yes"]')) return popYes();
+  if (t.closest('[data-open="no"]')) return popNo();
+  if (t.closest('[data-close]') || t.id === 'ov') return close();
+  const tile = t.closest('[data-n]');
+  if (tile) {
+    count = Number(tile.dataset.n);
+    document.querySelectorAll('.tile').forEach(b => b.classList.toggle('on', b === tile));
+    $('send').classList.remove('dim');
+    const h = $('hint'); h.className = 'hint'; h.textContent = 'Great, now tap Send RSVP';
+    return;
+  }
+  if (t.closest('[data-note]')) { showNote = true; popYes(); setTimeout(() => $('note') && $('note').focus(), 50); return; }
+  const s = t.closest('[data-send]');
+  if (s && s.dataset.send === 'Yes' && askCount() && count < 1) {
+    const h = $('hint'); h.className = 'hint warn'; h.textContent = '👆 Please tap a number above first';
+    const tl = $('tiles'); tl.classList.remove('shake'); void tl.offsetWidth; tl.classList.add('shake');
+    return;
+  }
+  if (s && !s.disabled) return send(s.dataset.send);
+  if (t.id === 'change') return page();
+});
+
+function fail(msg) { $('card').innerHTML = `<div class="state">${esc(msg)}</div>`; }
+
+if (G) init();
+else if (API) {
+  const token = new URLSearchParams(location.search).get('g');
+  if (!token) fail('This link looks incomplete. Please open the link from your WhatsApp invitation.');
+  else (function load(attempt) {
+    api({ api: 'guest', g: token })
+      .then(j => { G = j; init(); })
+      .catch(err => {
+        if (err.message === 'notfound') return fail("We couldn't find this invitation. Please check the link, or simply reply on WhatsApp.");
+        if (attempt < 3) return setTimeout(() => load(attempt + 1), 1200 * attempt);
+        fail("We couldn't open your invitation just now. Please try again in a minute, or simply reply on WhatsApp.");
+      });
+  })(1);
+}
+</script>
+</body>
+</html>
